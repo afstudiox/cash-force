@@ -2,10 +2,10 @@ const { DataTypes } = require('sequelize');
 
 const attributes = {
   id: {allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER},
-  cnpj: {allowNull: false, unique: true, type: DataTypes.STRING},
-  companyType: {allowNull: false, type: DataTypes.STRING},
-  createdAt: {allowNull: false, type: DataTypes.DATE},
-  updatedAt: {allowNull: false, type: DataTypes.DATE},
+  cnpj: DataTypes.STRING,
+  companyType: DataTypes.STRING,
+  createdAt: DataTypes.DATE,
+  updatedAt: DataTypes.DATE,
 };
 
 module.exports = (sequelize) => {
@@ -16,9 +16,20 @@ module.exports = (sequelize) => {
       timestamps: true,
       tableName: 'cnpjs'
     });
+
+    cnpjsModel.associate = (models) => {
+      cnpjsModel.hasMany(models.buyers, {
+        foreignKey: 'cnpjId',
+        as: 'buyers'
+      });
+      cnpjsModel.hasMany(models.providers, {
+        foreignKey: 'cnpjId',
+        as: 'providers'
+      });
+      cnpjsModel.hasMany(models.orders, {
+        foreignKey: 'cnpjId',
+        as: 'orders'
+      });
+    };
   return cnpjsModel;
 };
-
-// ALTER TABLE `cnpjs`
-//   ADD PRIMARY KEY (`id`),
-//   ADD UNIQUE KEY `cnpj` (`cnpj`);npx sequelize db:migrate
