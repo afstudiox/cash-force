@@ -32,7 +32,6 @@
 
 // ADD CONSTRAINT `providers_ibfk_1` FOREIGN KEY (`cnpjId`) REFERENCES `cnpjs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-const { Module } = require('module');
 const { DataTypes } = require('sequelize');
 
 const attributes = {
