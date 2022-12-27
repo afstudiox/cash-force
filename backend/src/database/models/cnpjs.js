@@ -21,4 +21,4 @@ module.exports = (sequelize) => {
 
 // ALTER TABLE `cnpjs`
 //   ADD PRIMARY KEY (`id`),
-//   ADD UNIQUE KEY `cnpj` (`cnpj`);
+//   ADD UNIQUE KEY `cnpj` (`cnpj`);npx sequelize db:migrate
