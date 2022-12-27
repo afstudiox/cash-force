@@ -31,3 +31,54 @@
 // ADD KEY `cnpjId` (`cnpjId`);
 
 // ADD CONSTRAINT `providers_ibfk_1` FOREIGN KEY (`cnpjId`) REFERENCES `cnpjs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+const { Module } = require('module');
+const { DataTypes } = require('sequelize');
+
+const attributes = {
+  id: {allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER},
+  name: {allowNull: false, type: DataTypes.STRING},
+  tradingName: {allowNull: true, type: DataTypes.STRING},
+  cashforceTax: {allowNull: true, type: DataTypes.STRING},
+  responsibleName: {allowNull: true, type: DataTypes.STRING},
+  responsibleEmail: {allowNull: true, type: DataTypes.STRING},
+  responsiblePosition: {allowNull: true, type: DataTypes.STRING},
+  responsiblePhone: {allowNull: true, type: DataTypes.STRING},
+  responsibleMobile: {allowNull: true, type: DataTypes.STRING},
+  website: {allowNull: true, type: DataTypes.STRING},
+  postalCode: {allowNull: true, type: DataTypes.STRING},
+  address: {allowNull: true, type: DataTypes.STRING},
+  number: {allowNull: true, type: DataTypes.STRING},
+  complement: {allowNull: true, type: DataTypes.STRING},
+  neighborhood: {allowNull: true, type: DataTypes.STRING},
+  city: {allowNull: true, type: DataTypes.STRING},
+  state: {allowNull: true, type: DataTypes.STRING},
+  bank: {allowNull: true, type: DataTypes.STRING},
+  bankAgency: {allowNull: true, type: DataTypes.STRING},
+  account: {allowNull: true, type: DataTypes.STRING},
+  documents: {allowNull: true, type: DataTypes.STRING},
+  phoneNumber: {allowNull: true, type: DataTypes.STRING},
+  situation: {allowNull: true, type: DataTypes.STRING},
+  situationDate: {allowNull: true, type: DataTypes.STRING},
+  createdAt: {allowNull: false, type: DataTypes.DATE},
+  updatedAt: {allowNull: false, type: DataTypes.DATE},
+  cnpjId: {allowNull: true, type: DataTypes.INTEGER, references: {model: 'cnpjs', key: 'id'}},
+  email: {allowNull: true, type: DataTypes.STRING}
+};
+
+module.exports = (sequelize) => {
+  const providersModel = sequelize.define(
+    'providers', 
+    attributes,
+    {
+      timestamps: true,
+      tableName: 'providers',
+    });
+  providersModel.associate = (models) => {
+    providersModel.belongsTo(models.cnpjs, {
+      foreignKey: 'cnpjId',
+      as: 'cnpj',
+    });
+  };
+  return providersModel;
+};
