@@ -1,0 +1,10 @@
+const { orders } = require ('../database/models');
+
+const ordersService = {
+  getAll: async () => {
+    const orders = await orders.findAll();
+    return orders;
+  },
+};
+
+module.exports = ordersService;
