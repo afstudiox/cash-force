@@ -64,7 +64,7 @@ module.exports = {
         field: 'cnpj_id',
         allowNull: false,
         references: {
-          model: 'cnpj',
+          model: 'cnpjs',
           key: 'id',
         },
         onUpdate: 'CASCADE',
