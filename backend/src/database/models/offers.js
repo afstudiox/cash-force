@@ -1,20 +1,39 @@
-// `id` int(11) NOT NULL,
-// `tax` varchar(255) NOT NULL,
-// `tariff` varchar(255) NOT NULL,
-// `adValorem` varchar(255) NOT NULL,
-// `float` varchar(255) NOT NULL,
-// `iof` varchar(255) NOT NULL,
-// `expiresIn` datetime NOT NULL,
-// `paymentStatusSponsor` tinyint(1) DEFAULT 0,
-// `paymentStatusProvider` tinyint(1) DEFAULT 0,
-// `createdAt` datetime NOT NULL,
-// `updatedAt` datetime NOT NULL,
-// `orderId` int(11) DEFAULT NULL,
-// `sponsorId` int(11) DEFAULT NULL
+const { DataTypes } = require('sequelize');
 
-// ADD PRIMARY KEY (`id`),
-// ADD KEY `orderId` (`orderId`),
-// ADD KEY `sponsorId` (`sponsorId`);
+const attributes = {
+  id: {allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER},
+  tax: DataTypes.STRING,
+  tariff: DataTypes.STRING,
+  adValorem: DataTypes.STRING,
+  float: DataTypes.STRING,
+  iof: DataTypes.STRING,
+  expiresIn: DataTypes.DATE,
+  paymentStatusSponsor: DataTypes.BOOLEAN,
+  paymentStatusProvider: DataTypes.BOOLEAN,
+  orderId: DataTypes.INTEGER,
+  sponsorId: DataTypes.INTEGER,
+};
 
-// ADD CONSTRAINT `offers_ibfk_61` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-// ADD CONSTRAINT `offers_ibfk_62` FOREIGN KEY (`sponsorId`) REFERENCES `sponsors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+module.exports = (sequelize) => {
+  const offersModel = sequelize.define(
+    'offers',
+    attributes,
+    {
+      timestamps: true,
+      tableName: 'offers'
+    });
+
+  offersModel.associate = (models) => {
+    offersModel.belongsTo(models.orders, {
+      foreignKey: 'orderId',
+      as: 'order'
+    });
+    offersModel.belongsTo(models.sponsors, {
+      foreignKey: 'sponsorId',
+      as: 'sponsor'
+    });
+  };
+
+  return offersModel;
+
+};

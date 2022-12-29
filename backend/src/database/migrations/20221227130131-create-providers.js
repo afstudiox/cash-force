@@ -30,7 +30,7 @@ module.exports = {
       situationDate: {allowNull: true, field: 'situation_date', type: Sequelize.STRING},
       createdAt: {allowNull: false, field: 'created_at', type: Sequelize.DATE},
       updatedAt: {allowNull: false, field: 'updated_at', type: Sequelize.DATE},
-      cnpjId: {allowNull: true, field: 'updated_at', type: Sequelize.INTEGER, references: {model: 'cnpjs', key: 'id'},onDelete: 'CASCADE', onUpdate: 'CASCADE'},
+      cnpjId: {allowNull: true, field: 'cnpj_id', type: Sequelize.INTEGER, references: {model: 'cnpjs', key: 'id'},onDelete: 'CASCADE', onUpdate: 'CASCADE'},
       email: {allowNull: true, type: Sequelize.STRING}
     });
   },
