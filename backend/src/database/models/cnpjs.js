@@ -4,8 +4,6 @@ const attributes = {
   id: {allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER},
   cnpj: DataTypes.STRING,
   companyType: DataTypes.STRING,
-  createdAt: DataTypes.DATE,
-  updatedAt: DataTypes.DATE,
 };
 
 module.exports = (sequelize) => {
