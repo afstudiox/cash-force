@@ -1,38 +1,57 @@
-// `id` int(11) NOT NULL,
-// `orderNfId` varchar(255) NOT NULL,
-// `orderNumber` varchar(255) NOT NULL,
-// `orderPath` varchar(255) DEFAULT NULL,
-// `orderFileName` varchar(255) DEFAULT NULL,
-// `orderOriginalName` varchar(255) DEFAULT NULL,
-// `emissionDate` varchar(255) DEFAULT NULL,
-// `pdfFile` varchar(255) DEFAULT NULL,
-// `emitedTo` varchar(255) NOT NULL,
-// `nNf` varchar(255) DEFAULT NULL,
-// `CTE` varchar(255) DEFAULT NULL,
-// `value` varchar(255) DEFAULT NULL,
-// `createdAt` datetime NOT NULL,
-// `updatedAt` datetime NOT NULL,
-// `cnpjId` int(11) DEFAULT NULL,
-// `userId` int(11) DEFAULT NULL,
-// `buyerId` int(11) DEFAULT NULL,
-// `providerId` int(11) DEFAULT NULL,
-// `orderStatusBuyer` varchar(255) DEFAULT '0',
-// `orderStatusProvider` varchar(255) DEFAULT '0',
-// `deliveryReceipt` varchar(255) DEFAULT NULL,
-// `cargoPackingList` varchar(255) DEFAULT NULL,
-// `deliveryCtrc` varchar(255) DEFAULT NULL
+const { DataTypes } = require('sequelize');
 
-// ADD PRIMARY KEY (`id`),
-// ADD UNIQUE KEY `orderNfId` (`orderNfId`),
-// ADD UNIQUE KEY `orderPath` (`orderPath`),
-// ADD UNIQUE KEY `orderFileName` (`orderFileName`),
-// ADD UNIQUE KEY `orderOriginalName` (`orderOriginalName`),
-// ADD KEY `userId` (`userId`),
-// ADD KEY `buyerId` (`buyerId`),
-// ADD KEY `providerId` (`providerId`),
-// ADD KEY `cnpjId` (`cnpjId`);
+const attributes = {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  orderNfId: DataTypes.STRING,
+  orderNumber: DataTypes.STRING,
+  orderPath: DataTypes.STRING,
+  orderFileName: DataTypes.STRING,
+  orderOriginalName: DataTypes.STRING,
+  emissionDate: DataTypes.STRING,
+  pdfFile: DataTypes.STRING,
+  emitedTo: DataTypes.STRING,
+  nNf: DataTypes.STRING,
+  CTE: DataTypes.STRING,
+  value: DataTypes.STRING,
+  cnpjId: DataTypes.INTEGER,
+  userId: DataTypes.INTEGER,
+  buyerId: DataTypes.INTEGER,
+  providerId: DataTypes.INTEGER,
+  orderStatusBuyer: DataTypes.STRING,
+  orderStatusProvider: DataTypes.STRING,
+  deliveryReceipt: DataTypes.STRING,
+  cargoPackingList: DataTypes.STRING,
+  deliveryCtrc: DataTypes.STRING,
+};
 
-// ADD CONSTRAINT `orders_ibfk_139` FOREIGN KEY (`buyerId`) REFERENCES `buyers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-//   ADD CONSTRAINT `orders_ibfk_140` FOREIGN KEY (`providerId`) REFERENCES `providers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-//   ADD CONSTRAINT `orders_ibfk_141` FOREIGN KEY (`cnpjId`) REFERENCES `cnpjs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-//   ADD CONSTRAINT `orders_ibfk_142` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+module.exports = (sequelize) => {
+  const ordersModel = sequelize.define('orders', attributes, {
+    timestamps: true,
+    tableName: 'orders',
+  });
+
+  ordersModel.associate = (models) => {
+    ordersModel.belongsTo(models.cnpj, {
+      foreignKey: 'cnpjId',
+      as: 'cnpj',
+    });
+    ordersModel.belongsTo(models.users, {
+      foreignKey: 'userId',
+      as: 'user',
+    });
+    ordersModel.belongsTo(models.buyers, {
+      foreignKey: 'buyerId',
+      as: 'buyer',
+    });
+    ordersModel.belongsTo(models.providers, {
+      foreignKey: 'providerId',
+      as: 'provider',
+    });
+  };
+  return ordersModel;
+};
