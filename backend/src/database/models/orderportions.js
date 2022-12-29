@@ -1,13 +1,35 @@
-// `id` int(11) NOT NULL,
-// `nDup` varchar(255) NOT NULL,
-// `dVenc` varchar(255) NOT NULL,
-// `vDup` varchar(255) NOT NULL,
-// `availableToMarket` tinyint(1) DEFAULT 1,
-// `createdAt` datetime NOT NULL,
-// `updatedAt` datetime NOT NULL,
-// `orderId` int(11) DEFAULT NULL
+const { DataTypes } = require('sequelize');
 
-// ADD PRIMARY KEY (`id`),
-// ADD KEY `orderId` (`orderId`);
+const attributes = {
+  id: {
+    allowNull: false, 
+    autoIncrement: true, 
+    primaryKey: true, 
+    type: DataTypes.INTEGER
+  },
+  nDup: DataTypes.STRING,
+  dVenc: DataTypes.STRING,
+  vDup: DataTypes.STRING,
+  availableToMarket: DataTypes.BOOLEAN,
+  orderId: DataTypes.INTEGER,
+};
 
-// ADD CONSTRAINT `orderPortions_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+module.exports = (sequelize) => {
+  const orderPortionsModel = sequelize.define(
+    'orderPortions',
+    attributes,
+    {
+      timestamps: true,
+      tableName: 'orderPortions'
+    });
+
+  orderPortionsModel.associate = (models) => {
+    orderPortionsModel.belongsTo(models.orders, {
+      foreignKey: 'orderId',
+      as: 'order'
+    });
+  };
+
+  return orderPortionsModel;
+
+};
