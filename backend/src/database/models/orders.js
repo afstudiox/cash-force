@@ -16,7 +16,7 @@ const attributes = {
   pdfFile: DataTypes.STRING,
   emitedTo: DataTypes.STRING,
   nNf: DataTypes.STRING,
-  CTE: DataTypes.STRING,
+  cte: DataTypes.STRING,
   value: DataTypes.STRING,
   cnpjId: DataTypes.INTEGER,
   userId: DataTypes.INTEGER,
@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
   });
 
   ordersModel.associate = (models) => {
-    ordersModel.belongsTo(models.cnpj, {
+    ordersModel.belongsTo(models.cnpjs, {
       foreignKey: 'cnpjId',
       as: 'cnpj',
     });

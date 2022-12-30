@@ -41,9 +41,9 @@ module.exports = (sequelize) => {
       foreignKey: 'cnpjId',
       as: 'cnpj'
     });
-    sponsorsModel.hasMany(models.offer, {
+    sponsorsModel.hasMany(models.offers, {
       foreignKey: 'sponsorId',
-      as: 'offers'
+      as: 'offer'
     });
   };
   return sponsorsModel;

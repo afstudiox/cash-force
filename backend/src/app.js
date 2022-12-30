@@ -1,10 +1,13 @@
 const express = require('express');
-const ordersRoute = require('./routes/orders.route');
+const userRoute = require('./routes/userRoute');
+const orderRoute = require('./routes/orderRoute');
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/orders', ordersRoute);
+app.use('/users', userRoute);
+app.use('/orders', orderRoute);
+
 
 module.exports = app;
