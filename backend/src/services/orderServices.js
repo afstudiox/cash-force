@@ -7,7 +7,6 @@ const ordersService = {
         { model: buyers, as: 'buyer', attributes: ['name'] }, 
         { model: providers, as: 'provider', attributes: ['name'] },
       ],
-      raw: true,
     });
     return ordersList;
   },
